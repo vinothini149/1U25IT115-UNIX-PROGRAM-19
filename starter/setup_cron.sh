@@ -1,31 +1,16 @@
+bin/bash
 
----
-
-# 3. Starter file — `starter/setup_cron.sh`
-
-This is what students receive.
-
-```bash
-#!/bin/bash
-
-# ==========================================
 # Linux Crontab Assignment
-# ==========================================
 
-# TODO 1:
-# Determine the absolute path of cron_job.sh.
+# TODO 1: Determine the absolute path of cron_job.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CRON_SCRIPT="$SCRIPT_DIR/cron_job.sh"
 
-# TODO 2:
-# Create a cron entry that runs cron_job.sh
-# every minute.
+# TODO 2: Create a cron entry that runs cron_job.sh every minute
+CRON_ENTRY="* * * * * $CRON_SCRIPT"
 
-# TODO 3:
-# Install the cron entry for the current user
-# using the crontab command.
+# TODO 3 & 4: Install the cron entry without duplicates
+( crontab -l 2>/dev/null | grep -vF "$CRON_SCRIPT"; echo "$CRON_ENTRY" ) | crontab -
 
-# TODO 4:
-# Avoid adding duplicate copies of the same
-# cron entry.
-
-# TODO 5:
-# Display the current user's crontab.
+# TODO 5: Display the current user's crontab
+crontab -l
